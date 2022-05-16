@@ -1,0 +1,1993 @@
+@charset "UTF-8";
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+/* color */
+$color-background: #F3F3F3;
+$color-text: #3E3E3E;
+$color-font: #FFFFFF;
+$color-primary: #FFAA3B;
+$color-accent: #4973FF;
+$color-sub: #FF4646;
+
+
+/* font-family */
+$font-en: "Montserrat", sans-serif;
+$font-ja: "游ゴシック","Yu Gothic", "YuGothic", sans-serif;
+
+
+/* インナー */
+$layout-width-inner: 1200px;
+
+
+/* ブレークポイント */
+$breakpoints: (
+  "sp": "(max-width: 767px)",
+  "tab": "(min-width: 768px) and (max-width: #{$layout-width-inner})",
+  "pc": "(min-width: #{$layout-width-inner})", 
+) !default;
+
+
+/* メディアクエリ */
+@mixin mq($breakpoint: sp) {
+  @media #{map-get($breakpoints, $breakpoint)} {
+    @content;
+  }
+}
+
+
+/* 初期化 */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: "游ゴシック体", YuGothic, "游ゴシック Medium", "Yu Gothic Medium", "游ゴシック", "Yu Gothic", sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: $color-text;
+  background: $color-background;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+li,
+ul,
+ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: inherit;
+}
+
+
+/* 共通スタイル */
+.inner {
+  width: $layout-width-inner;
+  max-width: 100%;
+  margin: 0 auto;
+
+  @include mq(tab) {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  @include mq(sp) {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+.section {
+  margin-top: 120px;
+
+  @include mq(sp) {
+    margin-top: 60px;
+  }
+}
+
+/* util ---*/
+.util-title {
+  font-size: 36px;
+  font-weight: 600;
+  font-family: $font-en;
+  line-height: 1.2;
+  text-align: center;
+
+  @include mq(sp) {
+    font-size: 30px; 
+  }
+}
+
+.util-link {
+  display: inline-block;
+  width: 289px;
+  max-width: 100%;
+  height: 64px;
+  line-height: 64px;
+  font-size: 20px;
+  font-weight: 550;
+  letter-spacing: .1em;
+  text-align: center;
+  text-decoration: none;
+  color: $color-text;
+  background: $color-font;
+  border: 1px solid $color-font;
+}
+
+/* header -----------------------------------------------*/
+.header {
+  background: #FFFFFF1A;
+  height: 83px;
+  position: fixed;
+  width: 100%;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  @include mq(sp) {
+    height: 68px;
+    background: #FFFFFF;
+  }
+}
+
+.header-inner {
+  height: inherit;
+  align-items: center;
+
+  @include mq(sp) {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.header-title {
+  display: none;
+
+   @include mq(sp) {
+     display: block;
+     font-size: 23px;
+     font-family: $font-en;
+     font-weight: bold;
+     letter-spacing: 0.065rem;
+   }
+}
+
+.header-nav {
+  display: flex;
+  justify-content: center;
+  height: inherit;
+  align-items: center;
+
+  @include mq(sp) {
+    display: none;
+  }
+
+  li {
+    &:not(:first-child) {
+      margin-left: 39px;
+    }
+
+    a {
+      text-decoration: none;
+      font-family: $font-en;
+      height: 83px;
+      line-height: 83px;
+      position: relative;
+      transition: all 0.3s;
+
+      &::after {
+        content: "";
+        display: block;
+        position: absolute;
+        bottom: -9px;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background: $color-text;
+        transform: scale(0, 1);
+        transform-origin: center top;
+        transition: transform .3s;
+      }
+      
+      &:hover::after {
+          transform: scale(1, 1);
+      }
+    }
+  }
+}
+
+/* drawer -----------------------------------------------*/
+.drawer-icon {
+  position: fixed;
+  top: 24px;
+  right: 16px;
+  z-index: 300;
+  display: none;
+  transition: transform 0.5s ease 0s;
+
+  @include mq(sp) {
+    display: block;
+  }
+
+  &.is-active {
+    transform: translateX(-300px);
+
+    .drawer-icon-bar1 {
+      transform: rotate(-45deg);
+      top: 8px;
+      background: $color-font;
+    }
+    
+    .drawer-icon-bar2 {
+      display: none;
+    }
+    
+    .drawer-icon-bar3 {
+      transform: rotate(45deg);
+      top: 8px;
+      background: $color-font;
+    }
+  }
+}
+
+.drawer-icon-bars {
+  width: 26px;
+  height: 20px;
+  display: block;
+  position: relative;
+}
+
+.drawer-icon-bar1,
+.drawer-icon-bar2,
+.drawer-icon-bar3 {
+  position: absolute;
+  width: 26px;
+  height: 4px;
+  background: $color-text;
+  border-radius: 10px;
+  top: 0;
+  left: 0;
+}
+
+.drawer-icon-bar1 {
+  top: 0;
+}
+
+.drawer-icon-bar2 {
+  top: 8px;
+}
+
+.drawer-icon-bar3 {
+  top: 16px;
+}
+
+.drawer-content {
+  width: 300px;
+  height: 100%;
+  background: $color-font;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 299;
+  transform: translateX(105%);
+  transition: transform 0.5s ease 0s;
+
+  &.is-active {
+    transform: translateX(0);
+  }
+}
+
+.drawer-content-items {
+  padding: 161px 99px 155px;
+}
+
+.drawer-content-item {
+  text-align: center;
+
+  &:not(:first-child) {
+    margin-top: 24px;
+  }
+
+  a {
+    display: block;
+    color: $color-text;
+    font-size: 18px;
+    font-family: $font-en;
+    text-decoration: none;
+  }
+}
+
+.drawer-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: $color-text;
+  opacity: 0.7;
+  z-index: 298;
+  display: none;
+
+  &.is-active {
+    display: block;
+  }
+}
+
+
+/* main-visual ------------------------------------------*/
+.top {
+  height: 648px;
+  width: 100%;
+  background: url(https://github.com/emikinoshini/deitora_practice/blob/main/img/mv.png?raw=true) no-repeat center / cover;
+  position: relative;
+
+  @include mq(sp) {
+    height: 667px;
+    width: 100%;
+    background-position: 22% center; 
+  }
+}
+
+.top-inner {
+  height: inherit;
+  padding-top: 228px;
+
+  @include mq(sp) {
+    height: inherit;
+    padding-top: 224px;
+  }
+}
+
+.top-content {
+   width: 50%;
+   margin-left: auto;
+
+   @include mq(sp) {
+     width: $layout-width-inner;
+     max-width: 100%;
+   }
+}
+
+.top-title {
+  font-size: 32px;
+  font-weight: bold;
+  line-height: 1.5;
+
+  @include mq(sp) {
+    font-size: 24px;
+  }
+}
+
+.top-lead {
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 0.025em;
+  margin-top: 26px;
+
+  @include mq(sp){
+    font-size: 14px;
+    margin-top: 23px;
+    letter-spacing: 0.005em;
+  }
+}
+
+.top-button {
+  margin-top: 37px;
+
+  @include mq(sp) {
+    text-align: center;
+    margin-top: 23px;
+  }
+
+  a {
+    display: inline-block;
+    width: 282px;
+    max-width: 100%;
+    height: 50px;
+    line-height: 50px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    color: $color-font;
+    background: $color-primary;
+    border-radius: 10px;
+    box-shadow: 0 3px 5px rgba(62, 62, 62, 0.2);
+    transition: all 0.3s ease 0s;
+
+    @include mq(sp) {
+      width: 222px;
+      max-width: 100%;
+      height: 48px;
+      line-height: 48px;
+      font-size: 16px;
+    }
+
+    &:hover {
+      background: #F18900;
+    }
+  }
+}
+
+/* main -------------------------------------------------------*/
+/* news ------------------------------------------*/
+.news {
+  width: $layout-width-inner;
+  max-width: 100%;
+  background: $color-font;
+  box-shadow: 0 5px 12px rgba(62, 62, 62, 0.2);
+  margin: 120px auto 0;
+
+  @include mq(sp) {
+    width: 343px;
+    max-width: 100%;
+    margin: -40px auto;
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.news-inner {
+  padding: 60px 48px 40px;
+
+  @include mq(sp) {
+    padding: 40px 0;
+  }
+}
+
+.news-list {
+  margin-top: 58px;
+
+  @include mq(sp) {
+    margin-top: 38px;
+  }
+}
+
+.news-item {
+  letter-spacing: 0.025em;
+  padding: 38px 110px 38px 12px;
+  border-bottom: 1px solid rgba(206, 205, 205, 1);
+  position: relative;
+  transition: all 0.3s ease 0s;
+
+  @include mq(sp) {
+    padding: 12px 16px 8px;
+  }
+
+  @include mq(tab) {
+    padding: 24px 40px 24px 8px;
+  }
+
+  &:first-child {
+    border-top: 1px solid rgba(206, 205, 205, 1);
+
+    @include mq(sp) {
+      padding: 14px 16px  10px;
+    }
+  }
+
+  &::after {
+    content: "";
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: url(https://github.com/emikinoshini/deitora_practice/blob/main/img/news-arrow.png?raw=true) no-repeat center center / contain;
+
+    @include mq(sp) {
+      width: 13px;
+      height: 23px;
+      right: 15px;
+    }
+
+    @include mq(tab) {
+      right: 0;
+    }
+  }
+
+  a {
+    display: flex;
+    text-decoration: none;
+    align-items: center;
+    letter-spacing: 0.028rem;
+    
+    @include mq(sp) {
+      flex-wrap: wrap;
+    }
+
+    @include mq(tab) {
+      flex: 2fr 2fr 6fr;
+    }
+  }
+
+  &:hover {
+    background: #4973FF1A;
+  }
+}
+
+.news-item-date {
+  font-size: 18px;
+  font-family: $font-en;
+  white-space: nowrap;
+
+  @include mq(sp) {
+    font-size: 14px;
+  }
+}
+
+.news-item-label {
+  display: inline-block;
+  background: $color-font;
+  font-size: 14px;
+  line-height: 1.8;
+  border: 2px solid $color-accent;
+  border-radius: 50px;
+  padding: 0 30px;
+  margin-left: 38px;
+  
+
+  @include mq(sp) {
+    font-size: 12px;
+    padding: 0 12px;
+    margin-left: 24px;
+    line-height: 1.7;
+  }
+
+  @include mq(tab) {
+    font-size: 12px;
+    padding: 0 10px;
+    margin-left: 20px;
+    white-space: nowrap;
+  }
+}
+
+.news-item-text {
+  font-size: 18px;
+  line-height: 1.65;
+  margin-left: 40px;
+
+  @include mq(sp) {
+    width: 272px;
+    max-width: 100%;
+    font-size: 14px;
+    line-height: 1.428;
+    letter-spacing: 0.005em;
+    margin-top: 8px;
+    margin-left: 0;
+    margin-right: auto;
+
+    br {
+      display: none;
+    }
+  }
+
+  @include mq(tab) {
+    margin-left: 20px;
+  }
+}
+
+.news-button {
+  text-align: center;
+  margin-top: 42px;
+
+  a {
+    letter-spacing: 0.2em;
+    align-items: center;
+    width: 236px;
+    max-width: 100%;
+    border: 1px solid rgba(112, 112, 112, 1);
+    transition: all 0.3s ease 0s;
+
+    @include mq(sp) {
+      font-size: 18px;
+      width: 268px;
+      max-width: 100%;
+      height: 54px;
+      line-height: 2.8;
+    }
+
+    &:hover {
+      background: $color-text;
+      color: $color-font;
+    }
+  }
+}
+
+/* service ------------------------------------------*/
+.service {
+  width: 100%;
+  margin-top: 120px;
+  height: 400px;
+  background: $color-text;
+
+  @include mq(sp) {
+    margin-top: 100px;
+    height: 480px;
+  }
+}
+
+.service-inner {
+  width: 960px;
+  max-width: 100%;
+  height: 400px;
+  padding-top: 60px;
+  padding-bottom: -75px;
+  margin: 0 auto;
+
+  @include mq(sp) {
+    width: 100%;
+    height: 694px;
+    padding-top: 40px;
+    padding-bottom: -311px;
+  }
+}
+
+.service-title {
+  color: $color-font;
+}
+
+.service-list {
+  display: flex;
+  justify-content: space-around;
+  background: $color-font;
+  width: 960px;
+  max-width: 100%;
+  height: 331px;
+  box-shadow: 0 5px 12px #3E3E3E33;
+  padding: 60px 45px;
+  margin: 60px auto 0;
+  z-index: 1;
+
+  @include mq(sp) {
+    display: block;
+    width: 343px;
+    max-width: 100%;
+    height: 694px;
+    padding: 40px 16px;
+    margin: 40px auto 0;
+  }
+}
+
+.service-item {
+  width: 230px;
+  max-width: 100%;
+
+  @include mq(sp) {
+    width: 311px;
+    max-width: 100%;
+    height: 178px;
+    margin: 0 auto;
+  }
+
+  &:not(:first-child) {
+    margin-left: 90px;
+
+    @include mq(sp) {
+      margin-left: 0;
+      margin-top: 40px;
+    }
+  }
+}
+
+.service-item-logo {
+  width: 64px;
+  max-width: 100%;
+  height: 64px;
+  padding: 15px 6px;
+  margin: 0 auto;
+
+  @include mq(sp) {
+    height: 50px;
+  }
+}
+
+.service-item-title {
+  font-size: 20px;
+  font-family: $font-en;
+  font-weight: 550;
+  line-height: 1.35;
+  letter-spacing: 0.2rem;
+  text-align: center;
+  margin-top: 13px;
+
+  @include mq(sp) {
+    line-height: 1.2;
+    letter-spacing: 0.25rem;
+    margin-top: 23px;
+  }
+}
+
+.service-item-text {
+  font-size: 14px;
+  line-height: 1.5;
+  margin-top: 13px;
+
+  @include mq(sp) {
+    width: 100%;
+    line-height: 1.714;
+    margin-top: 14px;
+  }
+}
+
+/* results ------------------------------------------*/
+.results {
+  max-width: calc(50vw + 600px);
+  height: auto;
+  background: $color-text;
+  padding: 60px 0 60px 60px;
+  margin: 215px 0 0 auto;
+
+  @include mq(sp) {
+    padding: 40px 0;
+    margin-top: 390px;
+    margin-left: 0;
+  }
+}
+
+.results-title {
+  color: $color-font;
+  letter-spacing: 0.05rem;
+  text-align: left;
+
+  @include mq(sp) {
+    text-align: center;
+  }
+}
+
+.results-inner {
+  margin-top: 60px;
+
+  @include mq(sp) {
+    margin-top: 40px;
+    margin-left: 16px;
+  }
+}
+
+.results-item {
+transition: all 0.3s ease 0s;
+
+  a {
+    display: block;
+    text-decoration: none;
+  }
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.results-item-picture {
+  img {
+    display: block;
+  }
+}
+
+.results-item-body {
+  padding: 18px;
+  background: $color-font;
+
+  @include mq(sp) {
+    padding: 13px;
+  }
+}
+
+.results-item-title {
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 1.2;
+
+  @include mq(sp) {
+    font-size: 14px;
+    line-height: 1.14;
+  }
+}
+
+.results-item-text {
+  font-size: 16px;
+  line-height: 1.4;
+  margin-top: 10px;
+
+  @include mq(sp) {
+    font-size: 12px;
+  }
+}
+
+.swiper-pagination {
+  position: static !important;
+  text-align: left;
+  margin-top: 40px;
+
+  @include mq(sp) {
+    text-align: center;
+    margin-top: 18px;
+  }
+}
+
+.swiper-pagination-bullet {
+  display: inline-block;
+  background: $color-font;
+  font-size: 100%;
+  width: 12px;
+  height: 12px;
+  border-radius: 100%;
+  margin: 0 10px !important;
+  position: relative;
+
+  &:focus {
+    outline: none;
+  }
+
+  &.swiper-pagination-bullet-active:after {
+    content: "";
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid $color-font;
+    border-radius: 50%;
+    display: block;
+  }
+}
+
+.results-button {
+  margin-top: 36px;
+  text-align: left;
+
+  @include mq(sp) {
+    margin-top: 24px;
+    margin-left: 16px;
+    margin-right: 17px;
+  }
+
+  a {
+    color: $color-font;
+    font-family: $font-en;
+    border: 1px solid $color-font;
+    background: $color-text;
+    letter-spacing: 0.215rem;
+    transition: all 0.3s ease 0s;
+
+    @include mq(sp) {
+      font-size: 18px;
+      width: 316px;
+      height: 54px;
+      line-height: 54px;
+      letter-spacing: 0.2em;
+      align-items: center;
+    }
+
+    &:hover {
+      background: $color-font;
+      color: $color-text;
+    }
+  }
+}
+
+/* price --------------------------------------------*/
+.price {
+  width: 100%;
+
+  @include mq(sp) {
+    margin-top: 40px;
+  }
+
+  @include mq(tab) {
+    padding: 0 40px;
+  }
+}
+
+.price-table {
+  width: 960px;
+  max-width: 100%; 
+  margin: 60px auto 0;
+
+  @include mq(sp) {
+    width: 343px;
+    max-width: 100%;
+    margin: 40px auto 0;
+  }
+}
+
+.table {
+  border-collapse: collapse;  //(テーブルの隙間をリセットする)
+  border: 1px solid #707070;
+
+  @include mq(sp) {
+    border-collapse: collapse;
+  }
+
+  th,
+  td {
+    font-size: 25px;
+    font-family: $font-en;
+    font-weight: 550;
+    vertical-align: middle;
+    height: 61px;
+    padding: 0 40px;
+
+    @include mq(sp) {
+      font-size: 18px;
+      height: 56px;
+      padding: 0 20px;
+    }
+  }
+
+  th {
+    background: $color-text;
+    color: $color-font;
+    text-align: center;
+    width: 262px;
+    max-width: 100%;
+
+    @include mq(sp) {
+      //width: calc( 262 / 960 ) * 100%; 
+      width: 29%;
+    }
+
+    &:not(:nth-child(3)) {
+      border-bottom: 1px solid #fff;
+    }
+
+  }
+
+  td {
+    background: $color-font;
+    color: $color-text;
+    border: 1px solid #707070;
+    width: ( 960px - 262px ); 
+
+    @include mq(sp) {
+      letter-spacing: 0.08rem;
+    }
+  }
+}
+
+.price-attention {
+  font-size: 12px;
+  margin-top: 6px;
+
+  @include mq(sp) {
+    margin-top: 4px;
+  }
+}
+
+/* bg-wrapper --------------------------------------------*/
+.bg-wrapper {
+  width: 100%;
+  height: auto;
+  position: relative;
+
+  &::after {
+    content: "";
+    width: 980px;
+    max-width: 100%;
+    position: absolute;
+    top: 150px;
+    left: 0;
+    bottom: 130px;
+    background: $color-text;
+
+    @include mq(sp) {
+      top: 55px;
+      bottom: -60px;
+    } 
+  }
+}
+
+/* comments --------------------------------------------*/
+.comments {
+  margin-top: 120px;
+  position: relative;
+  z-index: 1;
+
+  @include mq(sp) {
+    margin-top: 60px;
+  }
+}
+
+.comments-inner {
+  display: flex;
+
+  @include mq(sp) {
+    display: block;
+  }
+}
+
+.comments-box {
+  background: $color-font;
+  width: 666px;
+  max-width: 100%;
+  height: 604px;
+  padding: 120px 60px;
+
+  @include mq(sp) {
+    width: 343px;
+    max-width: 100%;
+    height: 418px;
+    padding: 34px 20px;
+    margin: 0 auto;
+  }
+}
+
+.comments-title {
+ text-align: left;
+}
+
+.comments-item {
+  display: flex;
+  margin-top: 54px;
+
+  @include mq(sp) {
+    margin-top:38px;
+  }
+}
+
+.comments-item-icon {
+  img {
+    width: 100px;
+    max-width: 100%;
+    height: auto;
+    border-radius: 50%;
+
+    @include mq(sp) {
+      width: 60px;
+      max-width: 100%;
+      height: 60px;
+    }
+  }
+}
+
+.comments-item-text {
+  font-size: 16px;
+  width: 414px;
+  height: 88px;
+  margin-left: 32px;
+
+  @include mq(sp) {
+    font-size: 14px;
+    line-height: 1.428;
+    width: 223px;
+    height: 114px;
+    margin-left: 20px;
+  }
+} 
+
+.comments-picture {
+  width: 534px;
+  max-width: 100%;
+  height: 444px;
+  margin-top: 80px;
+
+  @include mq(sp) {
+    display: none;
+  }  
+}
+
+/* Q & A -----------------------------------------------*/
+.qa {
+  background: url(https://github.com/emikinoshini/deitora_practice/blob/main/img/qa-bg.png?raw=true) top center / cover;
+  width: 100%;
+  padding: 60px 16px 120px;
+  background-attachment: fixed; //背景画像を固定する
+  position: relative;
+  z-index: 1;
+
+  @include mq(sp) {
+    padding: 40px 0 60px;
+  }
+}
+
+.qa-inner {
+  margin: 60px auto 0;
+
+  @include mq(sp) {
+    margin: 40px auto 0;
+  }
+}
+
+.qa-list {
+  width: 612px;
+  max-width: 100%;
+  margin-left: auto;
+
+  @include mq(sp) {
+    width: 343px;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+}
+
+.qa-item {
+  &:nth-child(n + 2) {
+    margin-top: 30px;
+
+    @include mq(sp) {
+      margin-top: 24px;
+    }
+  }
+}
+
+.qa-box {
+  background: $color-font;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.qa-box-q {
+  font-weight: bold;
+  line-height: 1.45;
+  padding: 16px 56px;
+  position: relative;
+
+  &::before {
+    content: "Q";
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    color: $color-font;
+    font-weight: 550;
+    line-height: 1.5;
+    text-align: center;
+    align-items: center;
+    background: $color-accent;
+    border-radius: 50%;
+  }
+}
+
+.qa-box-icon {
+  width: 17px;
+  height: 17px;
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  &.is-open {
+    .qa-box-bar2 {
+      transform: rotate(90deg);
+    }
+  }
+}
+
+.qa-box-bar1 {
+  width: 17px;
+  height: 3px;
+  background: $color-accent;
+  border-radius: 20px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+}
+
+.qa-box-bar2 {
+  width: 3px;
+  height: 17px;
+  background: $color-accent;
+  border-radius: 20px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  transition: all 0.3s ease 0s;
+}
+
+.qa-box-a {
+  line-height: 1.4;
+  padding: 0 16px 14px 16px;
+  display: none;
+
+  @include mq(sp) {
+    padding: 0 16px 12px 16px;
+  }
+}
+
+.qa-box-content {
+  background: #3B69FF33;
+  padding: 16px;
+
+  @include mq(sp) {
+    font-size: 14px;
+    line-height: 1.428;
+    padding: 11px 15px 11px 11px;
+  }
+}
+
+/* access ----------------------------------------------*/
+.access {
+  padding: 120px 0 0 60px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-rows: 200px auto;
+  grid-template-columns: 414px auto;
+  position: relative;
+  z-index: 1;
+
+  @include mq(sp) {
+    padding: 40px 16px 0 16px;
+    grid-template-rows: 155px 241px 78px;
+    grid-template-columns: auto;
+  }
+}
+
+.access-inner {
+  grid-row: 1 / 2;
+  grid-column: 1 / 2;
+
+  @include mq(sp) {
+    grid-row: 1 / 2;
+    grid-column: 1 / 2;
+  }
+}
+
+.access-title {
+  color: $color-font;
+  line-height: 1.3;
+  letter-spacing: 0.07rem;
+  text-align: left;
+
+  @include mq(sp) {
+    line-height: 1.2333;
+  }
+}
+
+.access-info {
+  color: $color-font;
+  margin-top: 56px;
+  line-height: 1.5;
+
+  @include mq(sp) {
+    font-size: 14px;
+    line-height: 1.428;
+    margin-top: 40px;
+  }
+}
+
+.access-button {
+  grid-row: 2 / 3;
+  grid-column: 1 / 2;
+
+  @include mq(sp) {
+    grid-row: 3 / 4;
+    grid-column: 1 / 2;
+  }
+
+  a {
+    background: $color-text;
+    color: $color-font;
+    letter-spacing: 0.165rem;
+    border: 1px solid $color-font;
+    width: 314px;
+    max-width: 100%;
+    transition: all 0.3s ease 0s;
+
+    @include mq(sp) {
+      font-size: 18px;
+      width: 100%;
+      margin-top: 24px;
+      height: 54px;
+      line-height: 54px;
+      letter-spacing: 0.15rem;
+      align-items: center;
+    }
+
+    &:hover {
+      background: $color-font;
+      color: $color-text;
+    }
+  }
+}
+
+.access-map {
+  grid-row: 1 / 3;
+  grid-column: 2 / 3;
+
+  @include mq(sp) {
+    grid-row: 2 / 3;
+    grid-column: 1 / 2;
+  }
+ }
+
+.iframe-wrap {
+  width: 100%;
+  height: 520px;
+  position: relative;
+
+  @include mq(sp) {
+    width: 100%;
+    height: 240px;
+  }
+
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+
+/* contact us ------------------------------------------*/
+.contact {
+  width: 100%;
+  height: auto;
+  padding: 60px 160px;
+  background: url(https://github.com/emikinoshini/deitora_practice/blob/main/img/contact-bg.png?raw=true) no-repeat center center / cover;
+
+  @include mq(sp) {
+    padding: 40px 16px;
+  }
+
+  @include mq(tab) {
+    padding: 40px 80px;
+  }
+}
+
+.contact-inner {
+  width: 960px;
+  max-width: 100%;
+  margin: 0 auto;
+
+  @include mq(sp) {
+    width: 343px;
+    max-width: 100%;
+  }
+}
+
+.contact-header {
+  background: url(https://github.com/emikinoshini/deitora_practice/blob/main/img/contact1.png?raw=true) no-repeat center center / cover; 
+  padding: 60px 240px;
+  border-radius: 12px 12px 0 0 ;
+
+  @include mq(sp) {
+    padding: 40px 16px 35px;
+  }
+}
+
+.contact-title {
+  color: $color-font;
+  line-height: 1.23;
+
+  @include mq(sp) {
+    line-height: 1.3;
+  }
+}
+
+.contact-text {
+  color: $color-font;
+  font-size: 16px;
+  line-height: 1.5;
+  margin-top: 14px;
+
+  @include mq(sp) {
+    font-size: 14px;
+    line-height: 1.428;
+    margin-top: 10px;
+  }
+}
+
+.contact-body {
+  background: $color-font;
+  padding: 58px 118px;
+  border-radius: 0 0 12px 12px;
+  margin: 0 auto;
+
+  @include mq(sp) {
+    padding: 38px 12px;
+  }
+
+  @include mq(tab) {
+    padding: 40px 50px;
+  }
+}
+
+.contact-form-list {
+  @include mq(sp) {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+.contact-form-item {
+  display: flex;
+
+  &:not(:first-child, :last-child) {
+    margin-top: 26px;
+
+    @include mq(sp) {
+      margin-top: 27px;
+    }
+  }
+
+  &:last-child {
+    margin-top: 15px;
+
+    @include mq(sp) {
+      margin-top: 30px;
+    }
+  }
+
+  @include mq(sp) {
+    display: block;
+  }
+}
+
+.contact-item-title {
+  flex: 0 0 188px;
+  padding: 7px 0;
+  font-weight: bold;
+
+  @include mq(sp) {
+    padding: 5px 0;
+    line-height: 1.5;
+  }
+}
+
+.contact-item-inline {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: bold;
+  color: $color-font;
+  background: $color-sub;
+  border-radius: 2px;
+  text-align: center;
+  width: 40px;
+  height: 16px;
+  line-height: 16px;
+  padding: 1px 6px;
+  margin-left: 12px;
+
+  @include mq(sp) {
+    margin-left: 20px;
+  }
+}
+
+.contact-item-input {
+  flex: 0 1 100%;
+
+  @include mq(sp) {
+    margin-left: 0;
+    height: 19px;
+  }
+
+  [type="text"] {               //インプットの初期化が必要！
+    box-shadow: none;
+    border: none;
+    border-bottom: 1px solid #707070;
+    background: $color-font;
+    padding: 6px 14px;
+    appearance: none;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    width: 100%;
+    transition: all 0.3s ease 0s;
+
+    &:hover {
+      border-bottom: 1px solid $color-accent;
+      box-shadow: 0 1px 5px 0 #4973FF80;
+      cursor: pointer;
+    }
+
+    @include mq(sp) {
+      padding: 0;
+    }
+  }
+
+  [type="email"] {
+    box-shadow: none;
+    border: none;
+    border-bottom: 1px solid #707070;
+    background: $color-font;
+    padding: 6px 14px;
+    appearance: none;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    width: 100%;
+    transition: all 0.3s ease 0s;
+
+    &:hover {
+      border-bottom: 1px solid $color-accent;
+      box-shadow: 0 1px 5px 0 #4973FF80;
+      cursor: pointer;
+    }
+
+    @include mq(sp) {
+      padding: 0;
+    }
+  }
+
+  select {
+    box-shadow: none;
+    border: 1px solid #707070;
+    background: $color-font;
+    padding: 11px 38px 11px 10px;
+    appearance: none;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    width: 178px;
+    max-width: 100%;
+    transition: all 0.3s ease 0s;
+
+    &:hover {
+      border: 1px solid $color-accent;
+      box-shadow: 0 0 5px #4973FF80;
+      cursor: pointer;
+    }
+
+    @include mq(sp) {
+      width: 100%;
+    }
+  }
+}
+
+.contact-select-box {    //selectには疑似要素が適用されないため
+  width: 178px;
+  max-width: 100%;
+  height: 40px;
+  margin-right: auto;
+  position: relative;
+
+  @include mq(sp) {
+    width: 319px;
+    max-width: 100%;
+    margin: 0;
+  }
+
+  &::after {
+    content: "";
+    display: block;
+    width: 8px;
+    height: 8px;
+    position: absolute;
+    left: 156px;
+    top: 12px;
+    border: 2px solid $color-text;
+    border-top: 0;
+    border-left: 0;
+    transform: rotate(45deg);
+
+    @include mq(sp) {
+      left: 295px;
+    }
+  }
+}
+
+.contact-item-radio {
+  display: flex;
+  padding: 6px 0;
+
+  [type="radio"] {
+    display: none;
+  }
+}
+
+.contact-radio-part {
+  display: inline-block;
+  padding-left: 20px; 
+  position: relative;
+  margin-right: 40px;
+  
+  &::before {
+    content: "";
+    width: 12px;
+    height: 12px;
+    border: 1px solid #707070;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: $color-font;
+    border-radius: 50%;
+    transition: all 0.3s ease 0s;
+  }
+  
+  &::after {
+    content: "";
+    width: 6px;
+    height: 6px;
+    background: $color-accent;
+    position: absolute;
+    left: 3px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    display: none;
+  }
+
+  &:hover {
+    &::before {
+      border: 1px solid $color-accent;
+      box-shadow: 0 0 5px #4973FF80;
+      cursor: pointer;
+    }
+  }
+}
+
+[type="radio"]:checked + .contact-radio-part {
+  &::after {
+    display: block;
+  }
+}
+
+.contact-form-message {
+  margin-top: 16px;
+
+  @include mq(sp) {
+    margin-top: 30px;
+  }
+}
+
+.message-title {
+  font-weight: bold;
+}
+
+.message-textarea {
+  textarea {
+    height: 200px;
+    width: 720px;
+    max-width: 100%;
+    box-shadow: none;
+    outline: 0;
+    border-bottom: 1px solid #707070;
+    background: $color-font;
+    border-radius: 0;
+    resize: vertical;
+    padding: 8px;
+    appearance: none;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+
+    &:hover {
+      border: 1px solid $color-accent;
+      box-shadow: 0 0 5px #4973FF80;
+    }
+
+    @include mq(sp) {
+      width: 100%;
+      height: 160px;
+      padding: 0;
+      margin-top: 15px;
+    }
+  }
+}
+
+.contact-form-privacy {
+  margin-top: 32px;
+
+  a {
+    text-decoration: none;
+    letter-spacing: 0.12rem;
+  }
+
+  [type="checkbox"] {
+    display: none;
+  }
+
+  @include mq(sp) {
+    margin-top: 22px;
+  }
+}
+
+.contact-privacy-part {
+  display: inline-block;
+  padding-left: 40px;
+  vertical-align: middle;
+  position: relative;
+  
+  &::before {
+    content: "";
+    width: 20px;
+    height: 20px;
+    background: $color-font;
+    border: 1px solid #707070;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    transition: all 0.3s ease 0s;
+
+    @include mq(sp) {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  &::after {
+    content: "";
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    width: 8px;
+    border: 2px solid $color-accent;
+    border-top: 0;
+    border-left: 0;
+    background: transparent;
+    transform: rotate(45deg);
+    top: -12px;
+    left: 6px;
+    display: none;
+  }
+
+  a {
+    font-weight: bold;
+    text-decoration: none;
+    letter-spacing: 0.15rem;
+
+    @include mq(sp) {
+      letter-spacing: 0.001rem;
+    }
+  }
+
+  &:hover {
+    &::before {
+      border: 1px solid $color-accent;
+      box-shadow: 0 0 5px #4973FF80;
+      cursor: pointer;
+    }
+  }
+}
+
+[type="checkbox"]:checked + .contact-privacy-part {
+  &::after {
+    display: block;
+  }
+}
+
+.contact-form-submit {
+  margin-top: 38px;
+
+  @include mq(sp) {
+    margin-top: 30px;
+    text-align: center;
+  }
+
+  [type="submit"] {
+    background: #B2B2B2;
+    width: 173px;
+    display: inline-block;
+    color: $color-font;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 12px;
+    border-radius: 10px;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+    appearance: none;
+    font-family: inherit;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+
+    &.-active {
+      background: $color-primary;
+      color: $color-font;
+    }
+
+    @include mq(sp) {
+      width: 165px;
+      font-size: 16px;
+    }
+  }
+}
+
+/* footer ----------------------------------------------*/
+.footer {
+  background: $color-text;
+  color: #E3E3E3;
+  padding: 50px 0;
+
+  @include mq(sp) {
+    padding: 58px 0;
+  }
+}
+
+.footer-inner {
+  max-width: $layout-width-inner;
+  padding: 0 120px;
+  margin: 0 auto;
+  display: flex;
+
+  @include mq(sp) {
+    padding: 0 70px;
+    display: block;
+  }
+
+  @include mq(tab) {
+    justify-content: space-between;
+  }
+}
+
+.footer-sns-list {
+  display: flex;
+
+  @include mq(sp) {
+    justify-content: center;
+    line-height: 1.0;
+  }
+}
+
+.footer-sns-item {
+  & + & {
+    margin-left: 34px;
+
+    @include mq(sp) {
+      margin-left: 48px;
+    }
+  }
+
+  a {
+    font-size: 36px;
+    display: block;
+    transition: all 0.3s ease 0s;
+
+    @include mq(sp) {
+      font-size: 40px;
+    }
+  }
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.footer-nav-list {
+  margin-top: 27px;
+
+  @include mq(sp) {
+    text-align: center;
+    margin-top: 38px;
+  }
+}
+
+.footer-nav-item {
+  &:not(:first-child) {
+    margin-top: 12px;
+    
+    @include mq(sp) {
+      margin: 12px auto 0;
+    }
+  }
+
+  a {
+    display: inline-block;
+    text-decoration: none;
+    position: relative;
+    transition: all 0.3s ease 0s;
+    
+    &:hover {
+      &::after {
+        content: "";
+        display: block;
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background: $color-font;
+      }
+    }
+
+    @include mq(sp) {
+    
+    }
+  }
+}
+
+.footer-right {
+  @include mq(pc) {
+    margin-left: auto;
+  }
+}
+
+.footer-site-logo {
+  a {
+    font-size: 40px;
+    font-weight: bold;
+    font-family: $font-en;
+    line-height: 1.8;
+    letter-spacing: 0.05rem;
+    text-decoration: none;
+    display: block;
+
+    @include mq(sp) {
+      font-size: 32px;
+      margin-top: 30px;
+      text-align: center;
+    }
+  }
+} 
+
+.footer-copyright {
+  font-size: 12px;
+  letter-spacing: 0.003rem;
+  line-height: 1.25;
+  text-align: right;
+  
+  @include mq(sp) {
+    text-align: center;
+    letter-spacing: 0.1rem;
+  }
+}
+
+/* to-top ----------------------------------------------*/
+.to-top {
+  position: fixed;
+  right: 38px;
+  bottom: 34px;
+  z-index: 1;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease 0s;
+
+  &.is-show {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  a {
+    text-decoration: none;
+
+    img {
+      width: 50px;
+      max-width: 100%;
+      height: 50px;
+    }
+  }
+
+  @include mq(sp) {
+    right: 16px;
+    bottom: 6px;
+  }
+}
+
+//contact追加
+.contact-message {
+  text-align: center;
+  margin-top: 30px;
+  display: none;
+
+  &.-error {
+    color: $color-sub;
+  }
+}
+
